@@ -1,5 +1,5 @@
-# IEnumerable Notes
-Some IEnumerable notes in C#.
+# IEnumerable & Xelement Notes
+Some IEnumerable and Xelement notes in C#. This is more of a quick look at these concepts. I won't go too in detail or explain much.
 
 IEnumerable interface is the base interface for many collections in C#. It is used to provide a way of iterating through a collection. Collections are classes we can use to store a collection of objects. They are not limited to one type of object and have no size constraints.
 
