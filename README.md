@@ -1,4 +1,4 @@
-# IEnumerable & Xelement Notes
+# Xelement & IEnumerable Notes
 Some IEnumerable and Xelement notes in C#. This is more of a quick look at these concepts. I won't go too in detail or explain much.
 
 IEnumerable interface is the base interface for many collections in C#. It is used to provide a way of iterating through a collection. Collections are classes we can use to store a collection of objects. They are not limited to one type of object and have no size constraints.
@@ -134,4 +134,85 @@ foreach (var item in items)
 {
     Console.WriteLine(item);
 }
+```
+**Access Single Element in an XML File**
+---------------------------------------
+```cs
+foreach (var item in items)
+{
+    string? ourElement = item.Element("author")?.Value;
+    Console.WriteLine(ourElement);
+}
+/*  Gambardella, Matthew
+    Ralls, Kim
+    Ralls, Kim
+*/
+```
+**Check is Element Exists (Is not null)**
+----------------------------------
+```cs
+bool elementExists = item.Element("editor")?.Value != null;
+```
+
+**Access multiple elements in an XML File**
+----------
+```cs
+foreach (var item in items)
+{
+    string? author = item.Element("author")?.Value;
+    string? title = item.Element("title")?.Value;
+    Console.WriteLine($"Author: {author} Title: {title}");
+}
+/*  Author: Gambardella, Matthew Title: XML Developer's Guide
+    Author: Ralls, Kim Title: Midnight Rain
+    Author: Ralls, Kim Title: Maeve Ascendant
+*/
+```
+
+**Query XML File Based on Specific Criteria**
+-----------
+```cs
+var titles = from item in items where item.Element("author")?.Value == "Ralls, Kim" select item;
+//If you don't have the author's exact name, you can do something like this:
+//var titles = from item in items where item.Element("author").Value.Contains("Ralls") select item;
+
+//Check if IEnumerable<XElement> is null/empty
+if (titles?.Any() != true)
+{
+    Console.WriteLine("Is null");
+    return;
+}
+foreach (var item in titles)
+{
+    Console.WriteLine(item.Element("title")?.Value);
+}
+/*  Midnight Rain
+    Maeve Ascendant
+*/
+```
+
+**Access XML Elements With Specific Attributes (we look for specific id)**
+-------------
+```cs
+var books = from item in items where item.Attribute("id")?.Value == "bk102" select item;
+foreach (var book in books)
+{
+    Console.WriteLine(book.Element("title")?.Value);
+}
+//Midnight Rain
+```
+
+**Descendants**
+--------------
+Here we use descendents to determine if the book element contains the value "Computer" as a genre element descendant.
+```cs
+Console.WriteLine("All Computer Books:");
+
+var ComputerBooks = from item in xelement.Descendants("book") where item.Element("genre")?.Value == "Computer"
+		    select item;
+foreach(var book in ComputerBooks)
+{
+    Console.WriteLine(book.Element("title")?.Value);
+}
+//XML Developer's Guide
 ```
