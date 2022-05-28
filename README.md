@@ -78,3 +78,60 @@ foreach(int number in filtered2)
 }
 //Output is 2 4 6
 ```
+**XML**
+-----------------------
+Below is the xml file we'll be using for examples. The xml file consists of book elements with the attribute id. Inside of the book elements are more elements (author, title, genre, price, public_date, and description).
+```xml
+<catalog>
+	<book id="bk101">
+		<author>Gambardella, Matthew</author>
+		<title>XML Developer's Guide</title>
+		<genre>Computer</genre>
+		<price>44.95</price>
+		<publish_date>2000-10-01</publish_date>
+		<description>
+			An in-depth look at creating applications
+			with XML.
+		</description>
+	</book>
+	<book id="bk102">
+		<author>Ralls, Kim</author>
+		<title>Midnight Rain</title>
+		<genre>Fantasy</genre>
+		<price>5.95</price>
+		<publish_date>2000-12-16</publish_date>
+		<description>
+			A former architect battles corporate zombies,
+			an evil sorceress, and her own childhood to become queen
+			of the world.
+		</description>
+	</book>
+	<book id="bk103">
+		<author>Ralls, Kim</author>
+		<title>Maeve Ascendant</title>
+		<genre>Fantasy</genre>
+		<price>5.95</price>
+		<publish_date>2000-11-17</publish_date>
+		<description>
+			After the collapse of a nanotechnology
+			society in England, the young survivors lay the
+			foundation for a new society.
+		</description>
+	</book>
+</catalog>
+```
+
+**Reading an XML File**
+----------------------------
+There are two ways to read an XML file. One using XElement and XDocument. For the most part, we'll be using XElement.
+```cs
+string myFilePath = @"C:\Users\kevin\source\repos\CSharpTesting\randomFile.xml"; //My file location
+XElement xelement = XElement.Load(myFilePath); //XDocument doc = XDocument.Load(myFilePath);
+IEnumerable<XElement> items = xelement.Elements(); //IEnumerable<XElement> items = doc.Elements("catalog").Elements();
+
+//Print out each item
+foreach (var item in items)
+{
+    Console.WriteLine(item);
+}
+```
